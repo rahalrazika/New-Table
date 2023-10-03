@@ -1,7 +1,9 @@
 <div class="container">
-    <h1 class="display-1 text-center">Employees Information</h1>
+  <h1 class="display-1 text-center">Employees Information</h1>
 
-  <table class="table table-bordered table-hover shadow p-3 mb-5 bg-body rounded">
+  <table
+    class="table table-bordered table-hover shadow p-3 mb-5 bg-body rounded"
+  >
     <thead class="table-primary">
       <tr>
         <th>
@@ -44,7 +46,7 @@
           <td>{{ item.phoneNo }}</td>
           <td>{{ item.companyName }}</td>
           <td>{{ item.address }}</td>
-          <td *ngIf="showDeleteButton(i)">
+          <td *ngIf="showDeleteButton(i) || areAllRowsSelected()">
             <button class="btn btn-danger" (click)="deleteRow(i)">
               Delete
             </button>
@@ -55,7 +57,7 @@
             <table class="table table-bordered">
               <thead>
                 <tr>
-                  <th></th>
+                  
                   <th>Name</th>
                   <th>Type</th>
                   <th>Email</th>
@@ -69,13 +71,6 @@
                   *ngFor="let child of item.children; let j = index"
                 >
                   <tr>
-                    <td>
-                      <!-- <input
-                        type="checkbox"
-                        (change)="toggleChildCheckbox(i, j)"
-                        [checked]="isSelectedChildRow(i, j)"
-                      /> -->
-                    </td>
                     <td>{{ child.name }}</td>
                     <td>{{ child.type }}</td>
                     <td>{{ child.email }}</td>
@@ -89,7 +84,7 @@
           </td>
         </tr>
       </ng-container>
-      <tr *ngIf="selectedCheckboxes.length > 0">
+      <tr *ngIf="selectedCheckboxes.length > 0 || areAllRowsSelected()">
         <td colspan="7"></td>
         <td>
           <button class="btn btn-danger" (click)="deleteMultipleRows()">

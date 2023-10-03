@@ -9,6 +9,8 @@ import data from 'src/app/data/data';
 export class NestedTableComponent implements OnInit {
   tableData: any[] = data;
   selectedCheckboxes: number[] = [];
+  anyRowsSelected: boolean = false;
+
 
   constructor() { }
 
@@ -45,15 +47,18 @@ export class NestedTableComponent implements OnInit {
 
   selectAllRows(event: any) {
     const checked = event.target.checked;
+
+    // Clear the selectedCheckboxes array
+    this.selectedCheckboxes = [];
+
     this.tableData.forEach((item, index) => {
       item.selected = checked;
-      if (checked && !this.isSelectedRow(index)) {
+      if (checked) {
         this.selectedCheckboxes.push(index);
-      } else if (!checked && this.isSelectedRow(index)) {
-        this.selectedCheckboxes = this.selectedCheckboxes.filter((item) => item !== index);
       }
     });
   }
+
 
   areAllRowsSelected(): boolean {
     return this.tableData.every(item => item.selected);
@@ -67,13 +72,15 @@ export class NestedTableComponent implements OnInit {
 
 
   deleteMultipleRows() {
-    this.selectedCheckboxes.sort((a, b) => b - a);
-    for (const index of this.selectedCheckboxes) {
+    this.selectedCheckboxes.sort((a, b) => a - b);
+    for (let i = this.selectedCheckboxes.length - 1; i >= 0; i--) {
+      const index = this.selectedCheckboxes[i];
       this.tableData.splice(index, 1);
     }
     // Clear the selectedCheckboxes 
     this.selectedCheckboxes = [];
   }
+
   toggleChildCheckbox(parentIndex: number, childIndex: number) {
     const item = this.tableData[parentIndex].children[childIndex];
     item.selected = !item.selected;
