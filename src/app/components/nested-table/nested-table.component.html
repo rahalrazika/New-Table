@@ -1,83 +1,102 @@
 <div class="container">
-    <table class="table table-bordered">
-      <thead>
+    <h1 class="display-1 text-center">Employees Information</h1>
+
+  <table class="table table-bordered table-hover shadow p-3 mb-5 bg-body rounded">
+    <thead class="table-primary">
+      <tr>
+        <th>
+          <input
+            type="checkbox"
+            (change)="selectAllRows($event)"
+            [checked]="areAllRowsSelected()"
+          />
+        </th>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Email</th>
+        <th>Phone No</th>
+        <th>Company Name</th>
+        <th>Address</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let item of tableData; let i = index">
         <tr>
-          <th>
+          <td>
             <input
               type="checkbox"
-              (change)="selectAllRows($event)"
-              [checked]="areAllRowsSelected()"
+              (change)="toggleCheckbox(i)"
+              [checked]="isSelectedRow(i)"
             />
-          </th>
-          <th></th>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Email</th>
-          <th>Phone No</th>
-          <th>Company Name</th>
-          <th>Address</th>
+          </td>
+          <td (click)="toggleCollapse(i)">
+            <div class="name-container">
+              <i
+                class="bi bi-arrow-right-short"
+                [class.rotated]="!item.collapsed"
+              ></i>
+              {{ item.name }}
+            </div>
+          </td>
+          <td>{{ item.type }}</td>
+          <td>{{ item.email }}</td>
+          <td>{{ item.phoneNo }}</td>
+          <td>{{ item.companyName }}</td>
+          <td>{{ item.address }}</td>
+          <td *ngIf="showDeleteButton(i)">
+            <button class="btn btn-danger" (click)="deleteRow(i)">
+              Delete
+            </button>
+          </td>
         </tr>
-      </thead>
-      <tbody>
-        <ng-container *ngFor="let item of tableData; let i = index">
-          <tr>
-            <td>
-              <input
-                type="checkbox"
-                (change)="selectRow(i)"
-                [checked]="isSelectedRow(i)"
-              />
-            </td>
-            <td>
-              <button
-                class="btn btn-link"
-                (click)="toggleCollapse(i)"
-                [class.collapsed]="item.collapsed"
-              >
-                <i class="bi bi-arrow-right-short"></i>
-              </button>
-            </td>
-            <td>{{ item.name }}</td>
-            <td>{{ item.type }}</td>
-            <td>{{ item.email }}</td>
-            <td>{{ item.phoneNo }}</td>
-            <td>{{ item.companyName }}</td>
-            <td>{{ item.address }}</td>
-          </tr>
-          <tr *ngIf="!item.collapsed" class="table-info">
-            <td></td>
-            <td></td>
-            <td colspan="6">
-              <table class="table table-bordered">
-                <thead>
+        <tr *ngIf="!item.collapsed" class="table-info">
+          <td colspan="8">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th>Email</th>
+                  <th>Phone No</th>
+                  <th>Company Name</th>
+                  <th>Address</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container
+                  *ngFor="let child of item.children; let j = index"
+                >
                   <tr>
-                    <th></th>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Email</th>
-                    <th>Phone No</th>
-                    <th>Company Name</th>
-                    <th>Address</th>
+                    <td>
+                      <!-- <input
+                        type="checkbox"
+                        (change)="toggleChildCheckbox(i, j)"
+                        [checked]="isSelectedChildRow(i, j)"
+                      /> -->
+                    </td>
+                    <td>{{ child.name }}</td>
+                    <td>{{ child.type }}</td>
+                    <td>{{ child.email }}</td>
+                    <td>{{ child.phoneNo }}</td>
+                    <td>{{ child.companyName }}</td>
+                    <td>{{ child.address }}</td>
                   </tr>
-                </thead>
-                <tbody>
-                  <ng-container *ngFor="let child of item.children">
-                    <tr>
-                      <td></td>
-                      <td>{{ child.name }}</td>
-                      <td>{{ child.type }}</td>
-                      <td>{{ child.email }}</td>
-                      <td>{{ child.phoneNo }}</td>
-                      <td>{{ child.companyName }}</td>
-                      <td>{{ child.address }}</td>
-                    </tr>
-                  </ng-container>
-                </tbody>
-              </table>
-            </td>
-          </tr>
-        </ng-container>
-      </tbody>
-    </table>
-  </div>
-  
+                </ng-container>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </ng-container>
+      <tr *ngIf="selectedCheckboxes.length > 0">
+        <td colspan="7"></td>
+        <td>
+          <button class="btn btn-danger" (click)="deleteMultipleRows()">
+            Delete selected
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
