@@ -54,16 +54,16 @@
         </tr>
         <tr *ngIf="!item.collapsed" class="table-info">
           <td colspan="8">
-            <table class="table table-bordered">
+            <table class="table table-hover table-bordered">
               <thead>
                 <tr>
-                  
                   <th>Name</th>
                   <th>Type</th>
                   <th>Email</th>
                   <th>Phone No</th>
                   <th>Company Name</th>
                   <th>Address</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -77,6 +77,14 @@
                     <td>{{ child.phoneNo }}</td>
                     <td>{{ child.companyName }}</td>
                     <td>{{ child.address }}</td>
+                    <td colspan="8">
+                      <button
+                        class="btn btn-danger delete-button-hover"
+                        (click)="deleteSecondRow(i, j)"
+                      >
+                        Delete
+                      </button>
+                    </td>
                   </tr>
                 </ng-container>
               </tbody>

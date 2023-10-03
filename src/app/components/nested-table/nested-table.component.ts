@@ -70,6 +70,14 @@ export class NestedTableComponent implements OnInit {
     this.selectedCheckboxes = this.selectedCheckboxes.filter((item) => item !== index);
   }
 
+  //deleteSecondRow function to handle second-level rows
+  deleteSecondRow(parentIndex: number, childIndex: number) {
+    if (childIndex >= 0 && childIndex < this.tableData[parentIndex].children.length) {
+      this.tableData[parentIndex].children.splice(childIndex, 1);
+    }
+  }
+
+
 
   deleteMultipleRows() {
     this.selectedCheckboxes.sort((a, b) => a - b);

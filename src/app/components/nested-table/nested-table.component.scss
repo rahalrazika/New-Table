@@ -17,3 +17,10 @@
 .name-container .bi-arrow-right-short.rotated {
   transform: rotate(90deg);
 }
+button.delete-button-hover {
+  display: none;
+}
+
+tr:hover button.delete-button-hover {
+  display: block;
+}
