@@ -1,0 +1,83 @@
+<div class="container">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>
+            <input
+              type="checkbox"
+              (change)="selectAllRows($event)"
+              [checked]="areAllRowsSelected()"
+            />
+          </th>
+          <th></th>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Email</th>
+          <th>Phone No</th>
+          <th>Company Name</th>
+          <th>Address</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let item of tableData; let i = index">
+          <tr>
+            <td>
+              <input
+                type="checkbox"
+                (change)="selectRow(i)"
+                [checked]="isSelectedRow(i)"
+              />
+            </td>
+            <td>
+              <button
+                class="btn btn-link"
+                (click)="toggleCollapse(i)"
+                [class.collapsed]="item.collapsed"
+              >
+                <i class="bi bi-arrow-right-short"></i>
+              </button>
+            </td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.type }}</td>
+            <td>{{ item.email }}</td>
+            <td>{{ item.phoneNo }}</td>
+            <td>{{ item.companyName }}</td>
+            <td>{{ item.address }}</td>
+          </tr>
+          <tr *ngIf="!item.collapsed" class="table-info">
+            <td></td>
+            <td></td>
+            <td colspan="6">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Email</th>
+                    <th>Phone No</th>
+                    <th>Company Name</th>
+                    <th>Address</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngFor="let child of item.children">
+                    <tr>
+                      <td></td>
+                      <td>{{ child.name }}</td>
+                      <td>{{ child.type }}</td>
+                      <td>{{ child.email }}</td>
+                      <td>{{ child.phoneNo }}</td>
+                      <td>{{ child.companyName }}</td>
+                      <td>{{ child.address }}</td>
+                    </tr>
+                  </ng-container>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+  
