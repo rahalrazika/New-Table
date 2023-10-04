@@ -27,3 +27,12 @@ tr:hover button.delete-button-hover {
 .larger-font {
   font-size: 28px; 
 }
+.resize-handle {
+  width: 4px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: -2px; /* Adjust the position as needed */
+  cursor: col-resize;
+  background-color: #ddd;
+}
