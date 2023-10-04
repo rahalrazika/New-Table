@@ -1,27 +1,53 @@
-# Newtable
+# Angular-Nested-Table-Example
+This repository contains an example of a nested table implementation in Angular. The nested table displays hierarchical data with expandable/collapsible rows, and multi-level sub rows, and supports actions such as delete and edit. It also includes a search feature and a column resizing directive.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.3.
+## Built With 🔨
+- Typescript
+- Angular
+- Firebase
 
-## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Live Demo 🚀
+[Angular-Nested-Table-Example](newtable-7f7c4.firebaseapp.com)
 
-## Code scaffolding
+## Getting Started 💻
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Installation
 
+To get a local copy of the repository please run the following commands on your terminal:
+
+```
+$ cd <folder>
+```
+
+```
+$ git clone https://github.com/rahalrazika/New-Table.git
+```
+
+```
+Open the terminal and run for a dev server
+$ ng serve
+```
+```
+$ Navigate to `http://localhost:4200/
+```
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## Running unit tests
+## Author
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+👤 **Razika Rahal**
 
-## Running end-to-end tests
+- Github: [@rahalrazika](https://github.com/rahalrazika)
+- Linkedin : [Razika Rahal](https://www.linkedin.com/in/razika-rahal-85539bbb/)
+- Twitter: [@Razika Rahal](https://twitter.com/RazikaRahal)
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
-## Further help
+## 🤝 Contributing
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Contributions, issues, and feature requests are welcome!
+
+## Show your support
+
+Give a ⭐️ if you like this project!
