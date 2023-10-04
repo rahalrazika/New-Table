@@ -13,11 +13,13 @@ export class NestedTableComponent implements OnInit {
   selectedCheckboxes: number[] = [];
   anyRowsSelected: boolean = false;
   searchText: string = '';
-  filteredTableData: any[] = this.tableData; // Initialize with all data
+  filteredTableData: any[] = this.tableData;
+  isTableCollapsed: boolean = true;
+
 
   private destroy$ = new Subject<void>();
 
-  constructor(private elementRef: ElementRef) {}
+  constructor(private elementRef: ElementRef) { }
 
   ngOnInit(): void {
     this.initializeData();
@@ -136,23 +138,68 @@ export class NestedTableComponent implements OnInit {
 
   filterTableData() {
     this.filteredTableData = this.tableData.filter(item => {
-      const name = item.name?.toLowerCase(); 
-      const hasMatchingChild = item.children?.some((child: any) => { 
-        const childName = child.name?.toLowerCase(); 
-        return childName?.includes(this.searchText.toLowerCase()); 
-      });
-      return name?.includes(this.searchText.toLowerCase()) || hasMatchingChild;
+      // Check if the item itself matches the search text
+      const name = item.name?.toLowerCase();
+      if (name?.includes(this.searchText.toLowerCase())) {
+        return true;
+      }
+
+      // Check if any child item matches the search text
+      if (item.children && item.children.length > 0) {
+        const hasMatchingChild = item.children.some((child: any) => {
+          const childName = child.name?.toLowerCase();
+          return childName?.includes(this.searchText.toLowerCase());
+        });
+        if (hasMatchingChild) {
+          return true;
+        }
+
+        // Check if any sub-child item matches the search text
+        for (const child of item.children) {
+          if (child.children && child.children.length > 0) {
+            const hasMatchingSubChild = child.children.some((subChild: any) => {
+              const subChildName = subChild.name?.toLowerCase();
+              return subChildName?.includes(this.searchText.toLowerCase());
+            });
+            if (hasMatchingSubChild) {
+              return true;
+            }
+          }
+        }
+      }
+
+      return false;
     });
   }
-  
-  
+
+  toggleTableCollapse() {
+    this.isTableCollapsed = !this.isTableCollapsed;
+    this.toggleAllRowCollapses(this.isTableCollapsed);
+  }
+
+  toggleAllRowCollapses(collapsed: boolean) {
+    this.tableData.forEach(item => {
+      item.collapsed = collapsed;
+      if (item.children) {
+        item.children.forEach((child: any) => {
+          child.collapsed = collapsed;
+          if (child.children) {
+            child.children.forEach((subChild: any) => {
+              subChild.collapsed = collapsed;
+            });
+          }
+        });
+      }
+    });
+  }
+
   private setupSearchInput() {
     const searchInput = this.elementRef.nativeElement.querySelector('#searchInput');
-    
+
     if (searchInput) {
       fromEvent(searchInput, 'input')
         .pipe(
-          debounceTime(300), 
+          debounceTime(300),
           distinctUntilChanged(),
           takeUntil(this.destroy$)
         )
@@ -161,4 +208,5 @@ export class NestedTableComponent implements OnInit {
         });
     }
   }
+
 }

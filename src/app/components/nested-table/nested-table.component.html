@@ -24,7 +24,16 @@
             [checked]="areAllRowsSelected()"
           />
         </th>
-        <th>Name</th>
+        <th>
+          <div (click)="toggleTableCollapse()">
+            <i
+              class="bi"
+              [class.bi-arrow-right-short]="isTableCollapsed"
+              [class.bi-arrow-down-short]="!isTableCollapsed"
+            ></i>
+            Name
+          </div>
+        </th>
         <th>Type</th>
         <th>Email</th>
         <th>Phone No</th>
