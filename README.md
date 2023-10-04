@@ -8,7 +8,7 @@ This repository contains an example of a nested table implementation in Angular.
 
 
 ## Live Demo 🚀
-[Angular-Nested-Table-Example](newtable-7f7c4.firebaseapp.com)
+[Angular-Nested-Table-Example](https://newtable-7f7c4.firebaseapp.com/?_gl=1*g6kkl*_ga*MTU1MjExMjMzLjE2OTU3MzIwMDE.*_ga_CW55HF8NVT*MTY5NjQ1MTgwOS4xNC4xLjE2OTY0NTM0MjguNjAuMC4w)
 
 ## Getting Started 💻
 
