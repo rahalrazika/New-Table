@@ -1,5 +1,16 @@
 <div class="container">
   <h1 class="display-1 text-center">Employees Information</h1>
+  <!-- search input field -->
+  <div class="mb-3">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Search by Name"
+      [(ngModel)]="searchText"
+      (input)="onSearch()"
+    />
+  </div>
+  <!-- table first level-->
 
   <table
     class="table table-bordered table-hover shadow p-3 mb-5 bg-body rounded"
@@ -23,7 +34,7 @@
       </tr>
     </thead>
     <tbody>
-      <ng-container *ngFor="let item of tableData; let i = index">
+      <ng-container *ngFor="let item of filteredTableData; let i = index">
         <tr>
           <td>
             <input
@@ -35,8 +46,9 @@
           <td (click)="toggleCollapse(i)">
             <div class="name-container">
               <i
-                class="bi bi-arrow-right-short"
-                [class.rotated]="!item.collapsed"
+                class="bi"
+                [class.bi-arrow-right-short]="item.collapsed"
+                [class.bi-arrow-down-short]="!item.collapsed"
               ></i>
               {{ item.name }}
             </div>
@@ -53,6 +65,8 @@
           </td>
         </tr>
         <tr *ngIf="!item.collapsed" class="table-info">
+          <!-------------------- table second level-------------------------------->
+
           <td colspan="8">
             <table class="table table-hover table-bordered">
               <thead>
@@ -71,13 +85,22 @@
                   *ngFor="let child of item.children; let j = index"
                 >
                   <tr>
-                    <td>{{ child.name }}</td>
+                    <td (click)="toggleChildCollapse(i, j)">
+                      <div class="name-container">
+                        <i
+                          class="bi"
+                          [class.bi-arrow-right-short]="child.collapsed"
+                          [class.bi-arrow-down-short]="!child.collapsed"
+                        ></i>
+                        {{ child.name }}
+                      </div>
+                    </td>
                     <td>{{ child.type }}</td>
                     <td>{{ child.email }}</td>
                     <td>{{ child.phoneNo }}</td>
                     <td>{{ child.companyName }}</td>
                     <td>{{ child.address }}</td>
-                    <td colspan="8">
+                    <td *ngIf="showDeleteButton(i) || areAllRowsSelected()">
                       <button
                         class="btn btn-danger delete-button-hover"
                         (click)="deleteSecondRow(i, j)"
@@ -86,12 +109,70 @@
                       </button>
                     </td>
                   </tr>
+                  <tr
+                    *ngIf="
+                      !child.collapsed &&
+                      child.children &&
+                      child.children.length > 0
+                    "
+                  >
+                    <!-------------------- table third  level-------------------------------->
+
+                    <td colspan="8">
+                      <table class="table table-hover table-bordered">
+                        <thead>
+                          <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Email</th>
+                            <th>Phone No</th>
+                            <th>Company Name</th>
+                            <th>Address</th>
+                            <th>Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <ng-container
+                            *ngFor="
+                              let subChild of child.children;
+                              let k = index
+                            "
+                          >
+                            <tr>
+                              <td>
+                                {{ subChild.name }}
+                              </td>
+                              <td>{{ subChild.type }}</td>
+                              <td>{{ subChild.email }}</td>
+                              <td>{{ subChild.phoneNo }}</td>
+                              <td>{{ subChild.companyName }}</td>
+                              <td>{{ subChild.address }}</td>
+                              <td
+                                *ngIf="
+                                  showDeleteButton(i) || areAllRowsSelected()
+                                "
+                              >
+                                <button
+                                  class="btn btn-danger delete-button-hover"
+                                  (click)="deleteThirdRow(i, j, k)"
+                                >
+                                  Delete
+                                </button>
+                              </td>
+                            </tr>
+                          </ng-container>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
                 </ng-container>
               </tbody>
             </table>
           </td>
         </tr>
       </ng-container>
+      <!-------------------- Delete selected-------------------------------->
+
       <tr *ngIf="selectedCheckboxes.length > 0 || areAllRowsSelected()">
         <td colspan="7"></td>
         <td>

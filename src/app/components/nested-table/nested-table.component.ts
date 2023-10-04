@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
+import { Subject, fromEvent } from 'rxjs';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import data from 'src/app/data/data';
 
 @Component({
@@ -10,12 +12,21 @@ export class NestedTableComponent implements OnInit {
   tableData: any[] = data;
   selectedCheckboxes: number[] = [];
   anyRowsSelected: boolean = false;
+  searchText: string = '';
+  filteredTableData: any[] = this.tableData; // Initialize with all data
 
+  private destroy$ = new Subject<void>();
 
-  constructor() { }
+  constructor(private elementRef: ElementRef) {}
 
   ngOnInit(): void {
     this.initializeData();
+    this.setupSearchInput();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   initializeData() {
@@ -102,5 +113,52 @@ export class NestedTableComponent implements OnInit {
     return this.selectedCheckboxes.includes(index);
   }
 
+  toggleChildCollapse(parentIndex: number, childIndex: number) {
+    this.tableData[parentIndex].children[childIndex].collapsed = !this.tableData[parentIndex].children[childIndex].collapsed;
+  }
+  deleteThirdRow(parentIndex: number, childIndex: number, subChildIndex: number) {
+    if (
+      subChildIndex >= 0 &&
+      subChildIndex < this.tableData[parentIndex].children[childIndex].children.length
+    ) {
+      this.tableData[parentIndex].children[childIndex].children.splice(
+        subChildIndex,
+        1
+      );
+    }
+  }
 
+  // add search functions 
+
+  onSearch() {
+    this.filterTableData();
+  }
+
+  filterTableData() {
+    this.filteredTableData = this.tableData.filter(item => {
+      const name = item.name?.toLowerCase(); 
+      const hasMatchingChild = item.children?.some((child: any) => { 
+        const childName = child.name?.toLowerCase(); 
+        return childName?.includes(this.searchText.toLowerCase()); 
+      });
+      return name?.includes(this.searchText.toLowerCase()) || hasMatchingChild;
+    });
+  }
+  
+  
+  private setupSearchInput() {
+    const searchInput = this.elementRef.nativeElement.querySelector('#searchInput');
+    
+    if (searchInput) {
+      fromEvent(searchInput, 'input')
+        .pipe(
+          debounceTime(300), 
+          distinctUntilChanged(),
+          takeUntil(this.destroy$)
+        )
+        .subscribe(() => {
+          this.onSearch();
+        });
+    }
+  }
 }
