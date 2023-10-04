@@ -67,10 +67,13 @@
           <td>{{ item.phoneNo }}</td>
           <td>{{ item.companyName }}</td>
           <td>{{ item.address }}</td>
-          <td *ngIf="showDeleteButton(i) || areAllRowsSelected()">
-            <button class="btn btn-danger" (click)="deleteRow(i)">
-              Delete
-            </button>
+          <td>
+            <div class="d-flex justify-content-center">
+
+<button class="btn btn-danger delete-button delete-button-hover me-2" (click)="deleteRow(i)">Delete</button>
+            <button class="btn  btn-primary delete-button-hover" >Edit</button>
+          </div>
+
           </td>
         </tr>
         <tr *ngIf="!item.collapsed" class="table-info">
@@ -109,13 +112,8 @@
                     <td>{{ child.phoneNo }}</td>
                     <td>{{ child.companyName }}</td>
                     <td>{{ child.address }}</td>
-                    <td *ngIf="showDeleteButton(i) || areAllRowsSelected()">
-                      <button
-                        class="btn btn-danger delete-button-hover"
-                        (click)="deleteSecondRow(i, j)"
-                      >
-                        Delete
-                      </button>
+                    <td>
+                      <button class="btn btn-danger delete-button-hover" (click)="deleteSecondRow(i, j)">Delete</button>
                     </td>
                   </tr>
                   <tr
@@ -156,17 +154,8 @@
                               <td>{{ subChild.phoneNo }}</td>
                               <td>{{ subChild.companyName }}</td>
                               <td>{{ subChild.address }}</td>
-                              <td
-                                *ngIf="
-                                  showDeleteButton(i) || areAllRowsSelected()
-                                "
-                              >
-                                <button
-                                  class="btn btn-danger delete-button-hover"
-                                  (click)="deleteThirdRow(i, j, k)"
-                                >
-                                  Delete
-                                </button>
+                              <td>
+                                <button class="btn btn-danger delete-button-hover" (click)="deleteThirdRow(i, j, k)">Delete</button>
                               </td>
                             </tr>
                           </ng-container>
@@ -182,7 +171,7 @@
       </ng-container>
       <!-------------------- Delete selected-------------------------------->
 
-      <tr *ngIf="selectedCheckboxes.length > 0 || areAllRowsSelected()">
+      <tr *ngIf="(selectedCheckboxes.length > 0 || areAllRowsSelected()) && filteredTableData.length > 0">
         <td colspan="7"></td>
         <td>
           <button class="btn btn-danger" (click)="deleteMultipleRows()">
@@ -190,6 +179,12 @@
           </button>
         </td>
       </tr>
+         <!-- No elements in the table -->
+         <tr *ngIf="filteredTableData.length === 0">
+          <td colspan="8" class="text-center larger-font">
+            <i class="bi bi-emoji-frown"></i> Oops! There are no Data to display. <i class="bi bi-emoji-frown"></i>
+          </td>
+        </tr>
     </tbody>
   </table>
 </div>

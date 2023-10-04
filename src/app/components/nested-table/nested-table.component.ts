@@ -111,8 +111,8 @@ export class NestedTableComponent implements OnInit {
     return this.tableData[parentIndex].children[childIndex].selected;
   }
 
-  showDeleteButton(index: number): boolean {
-    return this.selectedCheckboxes.includes(index);
+  showDeleteButton(row: any): boolean {
+    return row.selected;
   }
 
   toggleChildCollapse(parentIndex: number, childIndex: number) {
