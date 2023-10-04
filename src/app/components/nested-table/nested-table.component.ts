@@ -118,6 +118,7 @@ export class NestedTableComponent implements OnInit {
   toggleChildCollapse(parentIndex: number, childIndex: number) {
     this.tableData[parentIndex].children[childIndex].collapsed = !this.tableData[parentIndex].children[childIndex].collapsed;
   }
+
   deleteThirdRow(parentIndex: number, childIndex: number, subChildIndex: number) {
     if (
       subChildIndex >= 0 &&
