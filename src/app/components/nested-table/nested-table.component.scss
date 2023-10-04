@@ -1,8 +1,29 @@
 .btn-link {
-    font-size: 1.25rem; 
-  }
-  
-  .table-info {
-    background-color: #f8f9fa; 
-  }
-  
+  font-size: 1.25rem;
+}
+
+.table-info {
+  background-color: #f8f9fa;
+}
+.name-container {
+  display: flex;
+  align-items: center;
+}
+
+.name-container .bi-arrow-right-short {
+  transition: transform 0.2s ease;
+}
+
+.name-container .bi-arrow-right-short.rotated {
+  transform: rotate(90deg);
+}
+button.delete-button-hover {
+  display: none;
+}
+
+tr:hover button.delete-button-hover {
+  display: block;
+}
+.larger-font {
+  font-size: 28px; 
+}
